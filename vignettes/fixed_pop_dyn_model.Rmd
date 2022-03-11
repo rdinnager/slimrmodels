@@ -1,0 +1,43 @@
+---
+title: "Modelling fixed population dynamics in a simple metapopulation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Modelling fixed population dynamics in a simple metapopulation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(slimrmodels)
+```
+
+The `slimrmodels` package provides prewritten population genomics simulations that run under the hood in SLiM, through the `slimr` interface package. These models require no knowledge of SLiM, and any simulation logic that is required is specified in R. Here we demonstrate this idea using the `mod_fixed_pop_dyn()` function. This creates and runs a simulation in a metapopulation of migration linked subpopulations, based on a number of parameters that can be passed to the function. This model relies on prespecified population dynamics so that in each generation the subpopulation sizes are set to a fixed value. The system then evolves according to a wright-fisher model, which assumes a fixed population size such that evolution occurs by replacements of individuals with new individuals.
+
+The following model is equivalent to the model implemented in the `slimr` manuscript Supplementary Material, which originally required about 110 lines of code. With `slimrmodels` users can explore the same kind of model with just these lines of code:
+
+```{r example_test}
+## create population fluctuations
+pop_fluct <- function(gen, pop_scale, freq, ) {
+  sin(generation)
+}
+
+
+```
+
+```{r}
+results <- mod_fixed_pop_dyn(pop_abund = function(gen, pop_scale, ...) pop_values * pop_scale,
+                             sampler = samp_these,
+                             migration_rates = function(gen, abund_threshold, mig_rate, ...) {
+                               ifelse(pop_values > abund_threshold, mig_rat, 0)
+                             },
+                             pop_scale = pop_scale,
+                             abund_thres = abund_thres,
+                             mig_rate = mig_rate)
+```
